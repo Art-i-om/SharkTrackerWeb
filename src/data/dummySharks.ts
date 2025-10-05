@@ -9,36 +9,26 @@ const isoDaysAgo = (days: number) => {
 };
 
 const detail = (partial: Partial<SharkDetail>): SharkDetail => ({
-  id: partial.id ?? "",
+  id: partial.id ?? -1,
   name: partial.name ?? "Unnamed",
-  latitude: partial.latitude ?? 0,
-  longitude: partial.longitude ?? 0,
-  lastSeenAt: partial.lastSeenAt ?? baseDate.toISOString(),
+  geo_lat_deg: partial.geo_lat_deg ?? 0,
+  geo_lon_deg: partial.geo_lon_deg ?? 0,
   species: partial.species,
-  gender: partial.gender,
-  maturity: partial.maturity,
-  lengthMeters: partial.lengthMeters,
-  weightKg: partial.weightKg,
-  currentDepthMeters: partial.currentDepthMeters,
   notes: partial.notes,
   tagId: partial.tagId,
-  status: partial.status,
   previousLocations: partial.previousLocations ?? [],
   movementProbabilities: partial.movementProbabilities ?? [],
 });
 
 export const dummySharkDetails: SharkDetail[] = [
   detail({
-    id: "shark-001",
+    id: 1,
     name: "Aqua",
     species: "Great White",
-    gender: "Female",
-    maturity: "Mature",
     lengthMeters: 4.9,
     weightKg: 1300,
-    latitude: -33.8568,
-    longitude: 151.2153,
-    lastSeenAt: isoDaysAgo(0),
+    geo_lat_deg: -33.8568,
+    geo_lon_deg: 151.2153,
     notes: "Consistent coastal patrol with occasional offshore excursions.",
     tagId: "TAG-7781",
     status: "Active",
@@ -54,16 +44,13 @@ export const dummySharkDetails: SharkDetail[] = [
     ],
   }),
   detail({
-    id: "shark-002",
+    id: 2,
     name: "Brutus",
     species: "Bull Shark",
-    gender: "Male",
-    maturity: "Subadult",
     lengthMeters: 3.1,
     weightKg: 450,
-    latitude: 25.7617,
-    longitude: -80.1918,
-    lastSeenAt: isoDaysAgo(0),
+    geo_lat_deg: 25.7617,
+    geo_lon_deg: -80.1918,
     notes: "Prefers brackish water around river mouths.",
     tagId: "TAG-3388",
     status: "Active",
@@ -79,16 +66,13 @@ export const dummySharkDetails: SharkDetail[] = [
     ],
   }),
   detail({
-    id: "shark-003",
+    id: 3,
     name: "Coral",
     species: "Tiger Shark",
-    gender: "Female",
-    maturity: "Mature",
     lengthMeters: 4.3,
     weightKg: 900,
-    latitude: 21.3069,
-    longitude: -157.8583,
-    lastSeenAt: isoDaysAgo(0),
+    geo_lat_deg: 21.3069,
+    geo_lon_deg: -157.8583,
     notes: "Slow-moving around reef edges with targeted dives.",
     tagId: "TAG-9921",
     status: "Resting",
@@ -106,11 +90,10 @@ export const dummySharkDetails: SharkDetail[] = [
 ];
 
 export const dummySharkSummaries: SharkSummary[] = dummySharkDetails.map(
-  ({ id, name, latitude, longitude, lastSeenAt }) => ({
+  ({ id, name, geo_lat_deg, geo_lon_deg }) => ({
     id,
     name,
-    latitude,
-    longitude,
-    lastSeenAt,
+    geo_lat_deg: geo_lat_deg,
+    geo_lon_deg: geo_lon_deg,
   })
 );

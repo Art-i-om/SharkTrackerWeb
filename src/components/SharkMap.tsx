@@ -58,15 +58,15 @@ const buildDirectionLines = (
 
   return movements.map((movement) => {
     const destination = projectPoint(
-      shark.latitude,
-      shark.longitude,
+      shark.geo_lat_deg,
+      shark.geo_lon_deg,
       movement.headingDegrees,
       DIRECTION_PROJECTION_KM
     );
 
     return {
       path: [
-        [shark.latitude, shark.longitude],
+        [shark.geo_lat_deg, shark.geo_lon_deg],
         [destination.latitude, destination.longitude],
       ],
       movement,
@@ -75,7 +75,7 @@ const buildDirectionLines = (
 };
 
 const SharkMap: React.FC<SharkMapProps> = ({ shark }) => {
-  const center: LatLngExpression | undefined = shark ? [shark.latitude, shark.longitude] : undefined;
+  const center: LatLngExpression | undefined = shark ? [shark.geo_lat_deg, shark.geo_lon_deg] : undefined;
   const historyPoints = shark?.previousLocations ?? [];
 
   const directionLines = useMemo(() => (shark ? buildDirectionLines(shark) : []), [shark]);
@@ -104,7 +104,7 @@ const SharkMap: React.FC<SharkMapProps> = ({ shark }) => {
       {historyPoints.map((location) => (
         <CircleMarker
           key={location.timestamp}
-          center={[location.latitude, location.longitude]}
+          center={[location.geo_lat_deg, location.geo_lon_deg]}
           radius={6}
           pathOptions={{ color: "#2f4858", fillColor: "#2f4858", fillOpacity: 0.7 }}
         >

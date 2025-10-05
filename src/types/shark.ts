@@ -1,9 +1,8 @@
 export interface SharkSummary {
-  id: string;
+  id: number;
   name: string;
-  latitude: number;
-  longitude: number;
-  lastSeenAt: string;
+  geo_lat_deg: number;
+  geo_lon_deg: number;
 }
 
 export interface MovementProbability {
@@ -14,18 +13,30 @@ export interface MovementProbability {
 
 export interface SharkDetail extends SharkSummary {
   species?: string;
-  gender?: "Male" | "Female" | "Unknown";
-  maturity?: string;
-  lengthMeters?: number;
-  weightKg?: number;
-  currentDepthMeters?: number;
   notes?: string;
+  createdAt: string,
+  geo_lat_deg: number,
+  geo_lon_deg: number,
   tagId?: string;
-  status?: string;
-  previousLocations?: Array<{
+  tagFirmwareVersion: number;
+  tagLastSeen: string;
+  tagStatus: string;
+  latestBatteryVoltage: number;
+  latestUptime: number;
+  mean24hTemperature: number;
+  mean24hActivity: number;
+  max24hBiteScore: number;
+  previousLocations: Array<{
     timestamp: string;
-    latitude: number;
-    longitude: number;
-  }>;
+    depth_cm: number;
+    depth_max_cm: number;
+    temperature: number;
+    bite_score: number;
+    activity_level: number;
+    geo_lat_deg: number,
+    geo_lon_deg: number
+  }>
   movementProbabilities?: MovementProbability[];
+  totalSurfacePackets: number;
+  totalHealthPackets: number;
 }

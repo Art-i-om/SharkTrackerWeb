@@ -16,6 +16,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "./src",
+    "sourceMap": true,
+    "inlineSources": true,
     "types": ["leaflet"]
   },
   "include": ["src"],

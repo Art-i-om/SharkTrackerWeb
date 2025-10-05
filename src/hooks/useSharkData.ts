@@ -1,19 +1,19 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { dummySharkDetails, dummySharkSummaries } from "../data/dummySharks";
-import { fetchSharkById, fetchSharks } from "../services/api";
+import { fetchSharkById, fetchSharks, fetchAllSharks } from "../services/api";
 import { SharkDetail, SharkSummary } from "../types/shark";
 
 const DAILY_REFRESH_MS = 24 * 60 * 60 * 1000;
 
 interface SharkDataState {
   sharks: SharkSummary[];
-  selectedId: string | null;
+  selectedId: number | null;
   selectedShark: SharkDetail | null;
   isListLoading: boolean;
   isDetailLoading: boolean;
   listError: string | null;
   detailError: string | null;
-  selectShark: (id: string) => void;
+  selectShark: (id: number) => void;
   refresh: () => Promise<void>;
 }
 
@@ -25,7 +25,7 @@ const normalizeDetail = (detail: SharkDetail): SharkDetail => ({
 
 export const useSharkData = (): SharkDataState => {
   const [sharks, setSharks] = useState<SharkSummary[]>([]);
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
   const [selectedShark, setSelectedShark] = useState<SharkDetail | null>(null);
   const [isListLoading, setIsListLoading] = useState<boolean>(true);
   const [isDetailLoading, setIsDetailLoading] = useState<boolean>(false);
@@ -44,7 +44,7 @@ export const useSharkData = (): SharkDataState => {
   const loadSharkList = useCallback(async () => {
     setIsListLoading(true);
     try {
-      const response = await fetchSharks();
+      const response = await fetchAllSharks();
       setSharks(response);
       setListError(null);
       resolveSelection(response);
@@ -58,7 +58,7 @@ export const useSharkData = (): SharkDataState => {
     }
   }, [resolveSelection]);
 
-  const loadSharkDetail = useCallback(async (id: string) => {
+  const loadSharkDetail = useCallback(async (id: number) => {
     setIsDetailLoading(true);
     try {
       const response = await fetchSharkById(id);
@@ -92,7 +92,7 @@ export const useSharkData = (): SharkDataState => {
     loadSharkDetail(selectedId);
   }, [loadSharkDetail, selectedId]);
 
-  const selectShark = useCallback((id: string) => {
+  const selectShark = useCallback((id: number) => {
     setSelectedId(id);
   }, []);
 

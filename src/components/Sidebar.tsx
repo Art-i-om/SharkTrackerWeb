@@ -3,13 +3,14 @@ import { SharkSummary } from "../types/shark";
 
 interface SidebarProps {
   sharks: SharkSummary[];
-  selectedId: string | null;
-  onSelect: (id: string) => void;
+  selectedId: number | null;
+  onSelect: (id: number) => void;
   isLoading: boolean;
   error: string | null;
 }
 
-const formatCoord = (value: number) => value.toFixed(3);
+const formatCoord = (value: number | undefined | null) =>
+    value != null ? value.toFixed(3) : 'N/A';
 
 const Sidebar: React.FC<SidebarProps> = ({ sharks, selectedId, onSelect, isLoading, error }) => {
   return (
@@ -34,7 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sharks, selectedId, onSelect, isLoadi
               <div className="sidebar__item-meta">
                 <span>ID: {shark.id}</span>
                 <span>
-                  Lat: {formatCoord(shark.latitude)} | Lon: {formatCoord(shark.longitude)}
+                  Lat: {formatCoord(shark.geo_lat_deg)} | Lon: {formatCoord(shark.geo_lon_deg)}
                 </span>
               </div>
             </button>

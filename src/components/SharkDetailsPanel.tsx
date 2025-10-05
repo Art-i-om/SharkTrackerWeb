@@ -30,20 +30,19 @@ const SharkDetailsPanel: React.FC<SharkDetailsPanelProps> = ({ shark, isLoading,
     <section className="details">
       <div className="details__header">
         <h2>{shark.name}</h2>
-        <span className="details__status">{shark.status ?? "Unknown"}</span>
+        {/*<span className="details__status">{shark.status ?? "Active"}</span>*/}
+        <span className="details__status">{"Active"}</span>
       </div>
       {error && <div className="details__error">{error}</div>}
       {isLoading && <div className="details__loading">Refreshing data...</div>}
       <div className="details__grid">
         <InfoRow label="Tag ID" value={shark.tagId} />
         <InfoRow label="Species" value={shark.species} />
-        <InfoRow label="Gender" value={shark.gender} />
-        <InfoRow label="Maturity" value={shark.maturity} />
-        <InfoRow label="Length" value={shark.lengthMeters ? `${shark.lengthMeters.toFixed(1)} m` : null} />
-        <InfoRow label="Weight" value={shark.weightKg ? `${Math.round(shark.weightKg)} kg` : null} />
-        <InfoRow label="Current Depth" value={shark.currentDepthMeters ? `${Math.round(shark.currentDepthMeters)} m` : "Near surface"} />
-        <InfoRow label="Last Seen" value={new Date(shark.lastSeenAt).toLocaleString()} />
-        <InfoRow label="Coordinates" value={`${shark.latitude.toFixed(4)}, ${shark.longitude.toFixed(4)}`} />
+        <InfoRow label="Tag Firmware Version" value={shark.tagFirmwareVersion ? `${shark.tagFirmwareVersion.toFixed(1)}` : null} />
+        <InfoRow label="Tag Last Seen" value={shark.tagLastSeen ? `${shark.tagLastSeen}` : null} />
+        <InfoRow label="Tag Status" value={shark.tagStatus ? `${shark.tagStatus}` : "Near surface"} />
+        <InfoRow label="Latest Battery Voltage" value={shark.tagStatus ? `${shark.tagStatus}` : "Near surface"} />
+        <InfoRow label="Coordinates" value={`${shark.geo_lat_deg.toFixed(4)}, ${shark.geo_lon_deg.toFixed(4)}`} />
       </div>
       {shark.notes && (
         <div className="details__notes">
@@ -57,7 +56,7 @@ const SharkDetailsPanel: React.FC<SharkDetailsPanelProps> = ({ shark, isLoading,
           <ul>
             {previousLocations.map((location) => (
               <li key={location.timestamp}>
-                {new Date(location.timestamp).toLocaleDateString()} - {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
+                {new Date(location.timestamp).toLocaleDateString()} - {location.geo_lat_deg.toFixed(4)}, {location.geo_lon_deg.toFixed(4)}
               </li>
             ))}
           </ul>
