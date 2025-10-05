@@ -19,7 +19,7 @@ export interface SharkDetail extends SharkSummary {
   geo_lon_deg: number,
   tagId?: string;
   tagFirmwareVersion: number;
-  tagLastSeen: string;
+  tagLastSeen?: string;
   tagStatus: string;
   latestBatteryVoltage: number;
   latestUptime: number;
