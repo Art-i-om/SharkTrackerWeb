@@ -80,6 +80,29 @@ const SharkMap: React.FC<SharkMapProps> = ({ shark }) => {
 
   const directionLines = useMemo(() => (shark ? buildDirectionLines(shark) : []), [shark]);
 
+  const trackLines = useMemo(() => {
+    if (historyPoints.length < 2) return [];
+
+    const lines = [];
+    for (let i = 0; i < historyPoints.length - 1; i++) {
+      lines.push([
+        [historyPoints[i].geo_lat_deg, historyPoints[i].geo_lon_deg],
+        [historyPoints[i + 1].geo_lat_deg, historyPoints[i + 1].geo_lon_deg]
+      ] as LatLngExpression[]);
+    }
+
+    // Add line from last history point to current position
+    if (shark && historyPoints.length > 0) {
+      const lastPoint = historyPoints[historyPoints.length - 1];
+      lines.push([
+        [lastPoint.geo_lat_deg, lastPoint.geo_lon_deg],
+        [shark.geo_lat_deg, shark.geo_lon_deg]
+      ] as LatLngExpression[]);
+    }
+
+    return lines;
+  }, [historyPoints, shark]);
+
   if (!shark || !center) {
     return <div className="map-view map-view--empty">Select a shark to visualize its movement.</div>;
   }
@@ -101,17 +124,27 @@ const SharkMap: React.FC<SharkMapProps> = ({ shark }) => {
           {shark.name}
         </Tooltip>
       </Marker>
-      {historyPoints.map((location) => (
+      {historyPoints.map((location, index) => (
         <CircleMarker
           key={location.timestamp}
           center={[location.geo_lat_deg, location.geo_lon_deg]}
           radius={6}
-          pathOptions={{ color: "#2f4858", fillColor: "#2f4858", fillOpacity: 0.7 }}
+          pathOptions={{
+            color: index === historyPoints.length - 1 ? "#e74c3c" : "#2f4858",
+            fillColor: index === historyPoints.length - 1 ? "#e74c3c" : "#2f4858",
+            fillOpacity: 0.7 }}
         >
           <Tooltip direction="top" offset={[0, -10]}>
             {new Date(location.timestamp).toLocaleDateString()}
           </Tooltip>
         </CircleMarker>
+      ))}
+      {trackLines.map((path, index) => (
+          <Polyline
+              key={`track-${index}`}
+              positions={path}
+              pathOptions={{ color: "#3498db", weight: 3, opacity: 0.8 }}
+          />
       ))}
       {directionLines.map(({ path, movement }) => (
         <Polyline
