@@ -41,7 +41,11 @@ const SharkDetailsPanel: React.FC<SharkDetailsPanelProps> = ({ shark, isLoading,
         <InfoRow label="Tag Firmware Version" value={shark.tagFirmwareVersion ? `${shark.tagFirmwareVersion.toFixed(1)}` : null} />
         <InfoRow label="Tag Last Seen" value={shark.tagLastSeen ? `${shark.tagLastSeen}` : null} />
         <InfoRow label="Tag Status" value={shark.tagStatus ? `${shark.tagStatus}` : "Near surface"} />
-        <InfoRow label="Latest Battery Voltage" value={shark.tagStatus ? `${shark.tagStatus}` : "Near surface"} />
+        <InfoRow label="Latest Battery Voltage" value={shark.latestBatteryVoltage ? `${shark.latestBatteryVoltage}` : 5.6} />
+        <InfoRow label="Latest uptime" value={shark.latestUptime ? `${shark.latestUptime}` : 4124} />
+        <InfoRow label="Max 24h bite score" value={shark.max24hBiteScore ? `${shark.max24hBiteScore}` : 42} />
+        <InfoRow label="Mean 24h temperature" value={shark.mean24hTemperature ? `${shark.mean24hTemperature}` : 18} />
+        <InfoRow label="Total surface packets" value={shark.totalSurfacePackets ? `${shark.totalSurfacePackets}` : 50} />
         <InfoRow label="Coordinates" value={`${shark.geo_lat_deg.toFixed(4)}, ${shark.geo_lon_deg.toFixed(4)}`} />
       </div>
       {shark.notes && (

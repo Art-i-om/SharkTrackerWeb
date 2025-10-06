@@ -20,8 +20,9 @@ interface SharkDataState {
 const normalizeDetail = (detail: SharkDetail): SharkDetail => ({
   ...detail,
   previousLocations: detail.previousLocations ?? [],
-  movementProbabilities: detail.movementProbabilities ?? [],
-});
+  predictedLocations: detail.predictedLocations ?? [],
+    }
+);
 
 export const useSharkData = (): SharkDataState => {
   const [sharks, setSharks] = useState<SharkSummary[]>([]);
