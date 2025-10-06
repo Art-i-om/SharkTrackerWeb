@@ -17,7 +17,7 @@ export interface PreviousLocation {
 }
 
 export interface PredictedLocation {
-  timestamp: number;
+  timestamp: string;
   speed_mps: number;
   heading_deg: number;
   geo_lat_deg: number;
